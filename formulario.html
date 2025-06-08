@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Personal</title>
+    <link rel="icon" type="image/x-icon" href="usuario.png">
+    
+    <style>
+        .cuadro{
+            width: 550px;
+            height: auto;
+            padding: 20px;
+            border: 6px solid rgb(143, 47, 180);
+            border-radius: 15px;
+            text-align: left;
+            background-color: white;
+            margin-top: 100px;
+            margin-left: 350px;
+        }
+
+        /* Event listeners para validación de caracteres*/
+        
+        .error {
+            color: #ff0000;
+            font-size: 12px;
+            display: block;
+            margin-left: 10px;
+            clear: both;
+        }
+        
+        .input-group {
+            margin-bottom: 5px;
+        }
+        
+        .inline-group {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+        }
+        
+        .input-error {
+            border: 2px solid red !important;
+        }
+        
+        .input-success {
+            border: 2px solid rgb(83, 248, 83) !important;
+        }
+
+        .storage-info {
+            background-color: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 12px;
+            color: #0c5460;
+        }
+
+        .saved-data {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 12px;
+            color: #155724;
+        }
+
+        .btn-storage {
+            background-color: rgb(255, 255, 255);
+            border: 3px solid rgb(151, 89, 231);
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-storage:hover {
+            background-color: rgb(240, 240, 255);
+        }
+    </style>
+</head>
+
+<body style="background-image: url(img1.jpg);background-size: cover;">
+    <div class="cuadro">
+        <h1 style="color: rgb(187, 88, 207); text-align: center;">Registro Personal</h1>
+        
+        <!-- Información de guardado automático -->
+        <div class="storage-info">
+            📁 <strong>Guardado automático:</strong> Tus datos se guardan automáticamente mientras escribes y se restauran al recargar la página.
+        </div>
+
+        <!-- Mostrar datos guardados -->
+        <div id="datosGuardados" class="saved-data" style="display: none;">
+            💾 <strong>Datos restaurados:</strong> Se han cargado tus datos previamente guardados.
+        </div>
+
+        <form action="conexioncecy.php" name="cecyayuda" method="POST" onsubmit="return validarFormulario()">
+            
+            <label for="control" style="margin-left: 10px;">Ingresa tu numero de control: </label><br>
+            <input type="text" id="control" name="control" placeholder="ejemplo: 12345678901277" 
+                   style="background-color: rgb(244, 207, 253);margin-left: 10px;" 
+                   pattern="[0-9]{14}" maxlength="14" title="Debe contener exactamente 14 números"
+                   oninput="validarControl(); guardarDatos()" required>
+            <span id="errorControl" class="error"></span>
+            <br><br>
+
+            <label for="sexo" style="float: left; margin-left: 250px;margin-top: -56px;">Selecciona tu sexo:</label>
+            <select id="sexo" name="sexo" style="background-color: rgb(244, 207, 253);margin-left: 250px;margin-top: -38px; float: left;" onchange="guardarDatos()" required>
+                <option value=""></option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Otro">Otro</option>
+                <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+            </select>
+
+            <label for="semestre" style="float: left;margin-left: 430px;margin-top: -55px;">Semestre:</label>
+            <select id="semestre" name="semestre" style="background-color: rgb(244, 207, 253);float: left;margin-left: 430px;margin-top: -36px;" onchange="guardarDatos()" required>
+                <option value=""></option>
+                <option value="1° Semestre">1° Semestre</option>
+                <option value="2° Semestre">2° Semestre</option>
+                <option value="3° Semestre">3° Semestre</option>
+                <option value="4° Semestre">4° Semestre</option>
+                <option value="5° Semestre">5° Semestre</option>
+                <option value="6° Semestre">6° Semestre</option>
+            </select>
+
+            <label for="nombre" style="float: left; margin-left: 10px;margin-top: -10px;">Ingresa tu nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" size="40" 
+                   style="background-color: rgb(244, 207, 253);margin-left: 10px;margin-top: -9px;float: left;"
+                   pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo se permiten letras y espacios"
+                   oninput="validarNombre(); guardarDatos()" required>
+            <span id="errorNombre" class="error" style="clear: both; display: block;"></span>
+            <br><br>
+
+            <label for="edad" style="float: left;margin-left: 380px; margin-top: -66px;">Ingresa tu edad:</label><br>
+            <input type="number" id="edad" name="edad" 
+                   style="background-color: rgb(244, 207, 253);float: left;margin-left: 380px;margin-top: -63px;" 
+                   min="13" max="21" maxlength="2" title="Edad entre 13 y 21 años"
+                   oninput="validarEdad(); guardarDatos()" required>
+            <span id="errorEdad" class="error" style="clear: both; display: block; margin-left: 380px;"></span>
+
+            <label for="email" style="float: left; margin-left: 10px;margin-top: -40px;">Ingresa tu correo electronico:</label><br>
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" size="40" 
+                   style="background-color: rgb(244, 207, 253);float: left;margin-left: 10px;margin-top: -38px;" 
+                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                   title="Formato: usuario@gmail.com"
+                   oninput="validarCorreo(); guardarDatos()" required>
+            <span id="errorCorreo" class="error" style="clear: both; display: block;"></span>
+            <br><br><br>
+
+            <!-- Botones principales -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="reset" class="btn-storage" onclick="limpiarTodo()">Eliminar datos</button>
+                <button type="submit" class="btn-storage">Continuar</button>
+            </div>
+        </form>
+
+        <a href="portada.html">
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn-storage">Regresar</button>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // Clave para identificar los datos en localStorage
+        const STORAGE_KEY = 'registroPersonalData';
+
+        // Función para guardar datos en localStorage
+        function guardarDatos() {
+            try {
+                const datos = {
+                    control: document.getElementById('control').value,
+                    sexo: document.getElementById('sexo').value,
+                    semestre: document.getElementById('semestre').value,
+                    nombre: document.getElementById('nombre').value,
+                    edad: document.getElementById('edad').value,
+                    correo: document.getElementById('correo').value,
+                    fechaGuardado: new Date().toISOString()
+                };
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
+                console.log('Datos guardados correctamente');
+            } catch (error) {
+                console.error('Error al guardar datos:', error);
+            }
+        }
+
+        // Función para cargar datos desde localStorage
+        function cargarDatos() {
+            try {
+                const datosGuardados = localStorage.getItem(STORAGE_KEY);
+                
+                if (datosGuardados) {
+                    const datos = JSON.parse(datosGuardados);
+                    
+                    // Cargar datos en los campos
+                    document.getElementById('control').value = datos.control || '';
+                    document.getElementById('sexo').value = datos.sexo || '';
+                    document.getElementById('semestre').value = datos.semestre || '';
+                    document.getElementById('nombre').value = datos.nombre || '';
+                    document.getElementById('edad').value = datos.edad || '';
+                    document.getElementById('correo').value = datos.correo || '';
+                    
+                    // Mostrar mensaje de datos restaurados
+                    const mensajeDiv = document.getElementById('datosGuardados');
+                    if (datos.control || datos.nombre || datos.correo) {
+                        mensajeDiv.style.display = 'block';
+                        const fechaFormateada = new Date(datos.fechaGuardado).toLocaleString('es-ES', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        mensajeDiv.innerHTML = `💾 <strong>Datos restaurados:</strong> Guardados el ${fechaFormateada}`;
+                    }
+                    
+                    // Validar campos cargados para mostrar los indicadores visuales
+                    setTimeout(() => {
+                        validarControl();
+                        validarNombre();
+                        validarEdad();
+                        validarCorreo();
+                    }, 100);
+                    
+                    console.log('Datos cargados correctamente');
+                }
+            } catch (error) {
+                console.error('Error al cargar datos:', error);
+            }
+        }
+
+        // Validaciones (mantienen la misma lógica)
+        function validarControl() {
+            const control = document.getElementById('control');
+            const error = document.getElementById('errorControl');
+            const valor = control.value;
+            
+            if (!/^\d*$/.test(valor)) {
+                error.textContent = 'Solo se permiten números';
+                control.classList.add('input-error');
+                control.classList.remove('input-success');
+                return false;
+            }
+            
+            if (valor.length > 0 && valor.length !== 14) {
+                error.textContent = 'Debe tener exactamente 14 números';
+                control.classList.add('input-error');
+                control.classList.remove('input-success');
+                return false;
+            }
+            
+            if (valor.length === 14) {
+                error.textContent = '';
+                control.classList.remove('input-error');
+                control.classList.add('input-success');
+                return true;
+            }
+            
+            error.textContent = '';
+            control.classList.remove('input-error', 'input-success');
+            return false;
+        }
+
+        function validarNombre() {
+            const nombre = document.getElementById('nombre');
+            const error = document.getElementById('errorNombre');
+            const valor = nombre.value;
+            
+            if (!/^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]*$/.test(valor)) {
+                error.textContent = 'Solo se permiten letras y espacios';
+                nombre.classList.add('input-error');
+                nombre.classList.remove('input-success');
+                return false;
+            }
+            
+            if (valor.length > 0) {
+                error.textContent = '';
+                nombre.classList.remove('input-error');
+                nombre.classList.add('input-success');
+                return true;
+            }
+            
+            error.textContent = '';
+            nombre.classList.remove('input-error', 'input-success');
+            return false;
+        }
+
+        function validarEdad() {
+            const edad = document.getElementById('edad');
+            const error = document.getElementById('errorEdad');
+            const valor = parseInt(edad.value);
+            
+            if (edad.value === '') {
+                error.textContent = '';
+                edad.classList.remove('input-error', 'input-success');
+                return false;
+            }
+            
+            if (isNaN(valor) || valor < 13 || valor > 21) {
+                error.textContent = 'La edad debe estar entre 13 y 21 años';
+                edad.classList.add('input-error');
+                edad.classList.remove('input-success');
+                return false;
+            }
+            
+            error.textContent = '';
+            edad.classList.remove('input-error');
+            edad.classList.add('input-success');
+            return true;
+        }
+
+        function validarCorreo() {
+            const correo = document.getElementById('correo');
+            const error = document.getElementById('errorCorreo');
+            const valor = correo.value;
+            
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            if (valor === '') {
+                error.textContent = '';
+                correo.classList.remove('input-error', 'input-success');
+                return false;
+            }
+            
+            if (!regex.test(valor)) {
+                error.textContent = 'Formato de correo inválido (ejemplo@dominio.com)';
+                correo.classList.add('input-error');
+                correo.classList.remove('input-success');
+                return false;
+            }
+            
+            error.textContent = '';
+            correo.classList.remove('input-error');
+            correo.classList.add('input-success');
+            return true;
+        }
+
+        function validarFormulario() {
+            const controlValido = validarControl();
+            const nombreValido = validarNombre();
+            const edadValida = validarEdad();
+            const correoValido = validarCorreo();
+            
+            const sexo = document.getElementById('sexo').value;
+            const semestre = document.getElementById('semestre').value;
+            
+            if (!controlValido || !nombreValido || !edadValida || !correoValido || !sexo || !semestre) {
+                alert('Por favor, completa todos los campos correctamente antes de continuar.');
+                return false;
+            }
+            
+            // Guardar datos antes de enviar
+            guardarDatos();
+            return true;
+        }
+
+        // Función para limpiar todo
+        function limpiarTodo() {
+            limpiarErrores();
+            // Borrar también del localStorage
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+                console.log('Datos eliminados del almacenamiento');
+            } catch (error) {
+                console.error('Error al eliminar datos:', error);
+            }
+            document.getElementById('datosGuardados').style.display = 'none';
+        }
+
+        function limpiarErrores() {
+            const errores = document.querySelectorAll('.error');
+            errores.forEach(error => error.textContent = '');
+            
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.classList.remove('input-error', 'input-success');
+            });
+        }
+
+        // Event listeners para prevenir caracteres no válidos
+        document.getElementById('control').addEventListener('keypress', function(e) {
+            if (!/\d/.test(String.fromCharCode(e.which))) {
+                e.preventDefault();
+            }
+        });
+
+        document.getElementById('nombre').addEventListener('keypress', function(e) {
+            const char = String.fromCharCode(e.which);
+            if (!/[A-Za-zÁáÉéÍíÓóÚúÑñ\s]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+
+        // Cargar datos al cargar la página
+        window.addEventListener('load', function() {
+            console.log('Página cargada, intentando cargar datos...');
+            cargarDatos();
+        });
+
+        // Alternativamente, cargar datos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado, intentando cargar datos...');
+            cargarDatos();
+        });
+
+        // Guardar datos antes de cerrar la página
+        window.addEventListener('beforeunload', function() {
+            guardarDatos();
+        });
+
+        // Guardar datos periódicamente (cada 5 segundos) como respaldo
+        setInterval(function() {
+            // Solo guardar si hay algún dato ingresado
+            const control = document.getElementById('control').value;
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            
+            if (control || nombre || correo) {
+                guardarDatos();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

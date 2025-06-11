@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2025 a las 08:54:58
+-- Tiempo de generación: 11-06-2025 a las 08:25:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -57,7 +57,11 @@ CREATE TABLE `denunciante` (
 --
 
 INSERT INTO `denunciante` (`control`, `sexo`, `semestre`, `nombre`, `edad`, `correo`) VALUES
-('23415082010367', 'Femenino', '4', 'Daniela Vazquez', 19, 'nataly123@gmail.com');
+('23415082010906', 'Masculino', '3° Semestre', 'Daniela Diaz', 13, 'daniela@gmail.com'),
+('23415082010360', 'Femenino', '2° Semestre', 'Daniela Vazquez', 14, 'daniela@gmail.com'),
+('23415082010362', 'Femenino', '4', 'Daniela Vazquez', 14, 'nataly12@gmail.com'),
+('23415082010905', 'Masculino', '3° Semestre', 'Daniela Diaz', 13, 'daniela@gmail.com'),
+('23415082010367', 'Femenino', '4', 'Daniela Vazquez', 19, 'nataly12@gmail.com');
 
 --
 -- Índices para tablas volcadas

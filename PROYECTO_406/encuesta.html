@@ -63,31 +63,51 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
         <!-- Header principal con efecto visual -->
         <div class="header">
             <h1>🤝 Ayúdanos</h1>
             <p>Tu experiencia nos ayuda a mejorar nuestro proyecto contra la violencia de género</p>
         </div>
+
+        <div class="consulta-section" style="padding:20px 30px; text-align:center; background:linear-gradient(135deg,#f0f9ff,#e0f2fe); border-bottom:1px solid #e0e0e0;">
+    <p style="color:#666; margin-bottom:15px;">¿Ya enviaste tu opinión antes?</p>
+    <button type="button" onclick="window.location.href='ver_opinion.html'" 
+            style="background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; border:none; padding:12px 25px; border-radius:25px; cursor:pointer; font-size:1em; transition:all .3s ease;"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(79,70,229,0.3)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        🔍 Ver Mi Opinión Anterior
+    </button>
+</div>
         
-        <form class="form-content" id="surveyForm">
+        <form class="form-content" id="surveyForm" action="procesar.php" method="POST">
+            <!-- Campo para el nombre (llave primaria) -->
+            <div class="question-group">
+                <div class="question-title"><div class="question-icon">👤</div>Tu nombre completo</div>
+                <div class="textarea-group">
+                    <input type="text" name="nombre" id="nombre" placeholder="Escribe tu nombre completo..." required 
+                           style="width:100%;padding:15px;border:2px solid #e0e0e0;border-radius:10px;font-family:inherit;font-size:1em;background:white;transition:border-color .3s ease;">
+                </div>
+            </div>
+
             <!-- 1. Satisfacción general con sistema de estrellas -->
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">1</div>¿Qué tan satisfecho/a estás con nuestro proyecto?</div>
                 <div class="rating-group">
                     <span class="star" data-rating="1">⭐</span><span class="star" data-rating="2">⭐</span><span class="star" data-rating="3">⭐</span><span class="star" data-rating="4">⭐</span><span class="star" data-rating="5">⭐</span>
                 </div>
-                <input type="hidden" name="satisfaccion" id="satisfaccion">
+                <input type="hidden" name="preg_1" id="preg_1">
             </div>
 
             <!-- 2. Utilidad del proyecto -->
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">2</div>¿Te ayudó nuestro proyecto a sentirte más informado/a?</div>
                 <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="utilidad" value="mucho"><span>Sí, me ayudó mucho</span></label>
-                    <label class="radio-item"><input type="radio" name="utilidad" value="algo"><span>Me ayudó algo</span></label>
-                    <label class="radio-item"><input type="radio" name="utilidad" value="poco"><span>Me ayudó poco</span></label>
-                    <label class="radio-item"><input type="radio" name="utilidad" value="nada"><span>No me ayudó</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_2" value="mucho"><span>Sí, me ayudó mucho</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_2" value="algo"><span>Me ayudó algo</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_2" value="poco"><span>Me ayudó poco</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_2" value="nada"><span>No me ayudó</span></label>
                 </div>
             </div>
 
@@ -95,10 +115,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">3</div>¿Cuáles funcionalidades fueron más útiles?</div>
                 <div class="checkbox-group">
-                    <label class="checkbox-item"><input type="checkbox" name="funcionalidades[]" value="informacion"><span>Información sobre violencia</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="funcionalidades[]" value="recursos"><span>Recursos de ayuda</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="funcionalidades[]" value="testimonios"><span>Testimonios</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="funcionalidades[]" value="denuncia"><span>Proceso de denuncia</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_3[]" value="informacion"><span>Información sobre violencia</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_3[]" value="recursos"><span>Recursos de ayuda</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_3[]" value="testimonios"><span>Testimonios</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_3[]" value="denuncia"><span>Proceso de denuncia</span></label>
                 </div>
             </div>
 
@@ -106,10 +126,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">4</div>¿Qué tan fácil fue usar nuestro proyecto?</div>
                 <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="facilidad" value="muy_facil"><span>Muy fácil</span></label>
-                    <label class="radio-item"><input type="radio" name="facilidad" value="facil"><span>Fácil</span></label>
-                    <label class="radio-item"><input type="radio" name="facilidad" value="regular"><span>Regular</span></label>
-                    <label class="radio-item"><input type="radio" name="facilidad" value="dificil"><span>Difícil</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_4" value="muy_facil"><span>Muy fácil</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_4" value="facil"><span>Fácil</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_4" value="regular"><span>Regular</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_4" value="dificil"><span>Difícil</span></label>
                 </div>
             </div>
 
@@ -117,10 +137,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">5</div>¿Recomendarías nuestro proyecto?</div>
                 <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="recomendacion" value="definitivamente"><span>Definitivamente sí</span></label>
-                    <label class="radio-item"><input type="radio" name="recomendacion" value="probablemente"><span>Probablemente sí</span></label>
-                    <label class="radio-item"><input type="radio" name="recomendacion" value="tal_vez"><span>Tal vez</span></label>
-                    <label class="radio-item"><input type="radio" name="recomendacion" value="no"><span>No</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_5" value="definitivamente"><span>Definitivamente sí</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_5" value="probablemente"><span>Probablemente sí</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_5" value="tal_vez"><span>Tal vez</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_5" value="no"><span>No</span></label>
                 </div>
             </div>
 
@@ -128,10 +148,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">6</div>¿Qué información fue más importante?</div>
                 <div class="checkbox-group">
-                    <label class="checkbox-item"><input type="checkbox" name="informacion[]" value="legal"><span>Información legal</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="informacion[]" value="emocional"><span>Apoyo emocional</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="informacion[]" value="contactos"><span>Contactos de ayuda</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="informacion[]" value="prevencion"><span>Prevención</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_6[]" value="legal"><span>Información legal</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_6[]" value="emocional"><span>Apoyo emocional</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_6[]" value="contactos"><span>Contactos de ayuda</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_6[]" value="prevencion"><span>Prevención</span></label>
                 </div>
             </div>
 
@@ -139,10 +159,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">7</div>¿Te sentiste seguro/a al usar el proyecto?</div>
                 <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="seguridad" value="muy_seguro"><span>Muy seguro/a</span></label>
-                    <label class="radio-item"><input type="radio" name="seguridad" value="seguro"><span>Seguro/a</span></label>
-                    <label class="radio-item"><input type="radio" name="seguridad" value="neutral"><span>Neutral</span></label>
-                    <label class="radio-item"><input type="radio" name="seguridad" value="inseguro"><span>Inseguro/a</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_7" value="muy_seguro"><span>Muy seguro/a</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_7" value="seguro"><span>Seguro/a</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_7" value="neutral"><span>Neutral</span></label>
+                    <label class="radio-item"><input type="radio" name="preg_7" value="inseguro"><span>Inseguro/a</span></label>
                 </div>
             </div>
 
@@ -150,10 +170,10 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">8</div>¿Cómo te hizo sentir usar el proyecto?</div>
                 <div class="checkbox-group">
-                    <label class="checkbox-item"><input type="checkbox" name="impacto[]" value="empoderado"><span>Empoderado/a</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="impacto[]" value="informado"><span>Más informado/a</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="impacto[]" value="apoyado"><span>Apoyado/a</span></label>
-                    <label class="checkbox-item"><input type="checkbox" name="impacto[]" value="preocupado"><span>Preocupado/a</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_8[]" value="empoderado"><span>Empoderado/a</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_8[]" value="informado"><span>Más informado/a</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_8[]" value="apoyado"><span>Apoyado/a</span></label>
+                    <label class="checkbox-item"><input type="checkbox" name="preg_8[]" value="preocupado"><span>Preocupado/a</span></label>
                 </div>
             </div>
 
@@ -161,7 +181,7 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">9</div>¿Qué mejorarías del proyecto?</div>
                 <div class="textarea-group">
-                    <textarea name="mejoras" placeholder="Comparte tus ideas para mejorar..."></textarea>
+                    <textarea name="preg_9" placeholder="Comparte tus ideas para mejorar..."></textarea>
                 </div>
             </div>
 
@@ -169,7 +189,7 @@
             <div class="question-group">
                 <div class="question-title"><div class="question-icon">10</div>¿Comentarios adicionales?</div>
                 <div class="textarea-group">
-                    <textarea name="comentarios" placeholder="Cualquier otro comentario que quieras compartir..."></textarea>
+                    <textarea name="preg_10" placeholder="Cualquier otro comentario que quieras compartir..."></textarea>
                 </div>
             </div>
 
@@ -186,7 +206,7 @@
     <script>
         // Sistema de calificación por estrellas - maneja clicks y hover effects
         const stars = document.querySelectorAll('.star');
-        const satisfaccionInput = document.getElementById('satisfaccion');
+        const satisfaccionInput = document.getElementById('preg_1');
         
         stars.forEach((star, index) => {
             // Click para seleccionar calificación
@@ -209,32 +229,35 @@
             stars.forEach((s, i) => s.style.color = i < currentRating ? '#ff6b9d' : '#ddd');
         });
 
-        // Manejo del envío del formulario con validación y feedback visual
+        // Efecto de foco para el campo nombre
+        document.getElementById('nombre').addEventListener('focus', function() {
+            this.style.borderColor = '#ff6b9d';
+            this.style.boxShadow = '0 0 10px rgba(255,107,157,0.2)';
+        });
+        
+        document.getElementById('nombre').addEventListener('blur', function() {
+            this.style.borderColor = '#e0e0e0';
+            this.style.boxShadow = 'none';
+        });
+
+        // Manejo del envío del formulario con validación
         document.getElementById('surveyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Validación: verificar nombre
+            const nombre = document.getElementById('nombre').value.trim();
+            if (!nombre) {
+                e.preventDefault();
+                alert('Por favor, ingresa tu nombre.');
+                return;
+            }
             
             // Validación: verificar que se haya calificado con estrellas
             if (!satisfaccionInput.value) {
+                e.preventDefault();
                 alert('Por favor, califica tu satisfacción general con el proyecto.');
                 return;
             }
             
-            // Simulación de envío con cambio visual del botón
-            const submitBtn = document.querySelector('.submit-btn');
-            const originalText = submitBtn.innerHTML;
-            
-            // Estados del botón durante envío
-            submitBtn.innerHTML = '📤 Enviando...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                submitBtn.innerHTML = '✅ ¡Enviado!';
-                setTimeout(() => {
-                    alert('¡Gracias por tu feedback! Tu opinión nos ayuda a mejorar.');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 1000);
-            }, 2000);
+            // Si la validación pasa, el formulario se enviará normalmente al servidor
         });
 
         // Animaciones de entrada progresiva para las preguntas

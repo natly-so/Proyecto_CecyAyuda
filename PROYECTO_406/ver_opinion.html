@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Mi Opinión - Consulta de Encuesta</title>
+    <style>
+        /* Estilos similares a tu encuesta original */
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#8B5CF6,#A855F7,#C084FC,#DDD6FE,#F3F4F6);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+        
+        .container{background:white;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.1);max-width:700px;width:100%;overflow:hidden;animation:fadeIn .8s ease-out}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        
+        .header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;text-align:center;padding:40px 30px;position:relative;overflow:hidden}
+        .header h1{font-size:2.5em;margin-bottom:10px;position:relative;z-index:1}
+        .header p{font-size:1.1em;opacity:.9;position:relative;z-index:1}
+        
+        .search-section{padding:40px 30px;text-align:center}
+        .search-box{max-width:400px;margin:0 auto;position:relative}
+        .search-input{width:100%;padding:15px 20px;border:2px solid #e0e0e0;border-radius:50px;font-size:1.1em;outline:none;transition:all .3s ease}
+        .search-input:focus{border-color:#4f46e5;box-shadow:0 0 20px rgba(79,70,229,0.2)}
+        .search-btn{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border:none;padding:15px 30px;border-radius:50px;font-size:1.1em;cursor:pointer;margin-top:20px;transition:all .3s ease}
+        .search-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(79,70,229,0.3)}
+        
+        .result-section{padding:0 30px 40px;display:none}
+        .opinion-card{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-radius:15px;padding:25px;margin-bottom:20px;border-left:5px solid #4f46e5}
+        .question-title{font-weight:600;color:#4a4a4a;margin-bottom:10px;display:flex;align-items:center}
+        .question-icon{width:24px;height:24px;margin-right:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:.8em}
+        .answer{padding:10px 15px;background:white;border-radius:8px;margin-top:10px;color:#333}
+        .stars{color:#ff6b9d;font-size:1.2em}
+        .not-found{text-align:center;padding:40px;color:#666}
+        .edit-btn{background:linear-gradient(135deg,#ff6b9d,#c44569);color:white;border:none;padding:12px 25px;border-radius:25px;cursor:pointer;margin-top:20px;transition:all .3s ease}
+        .edit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,157,0.3)}
+        
+        @media (max-width:768px){
+            .container{margin:10px}
+            .header{padding:30px 20px}
+            .header h1{font-size:2em}
+            .search-section{padding:30px 20px}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Ver Mi Opinión</h1>
+            <p>Consulta tu encuesta guardada anteriormente</p>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="nombreBuscar" placeholder="Escribe tu nombre completo...">
+                <button class="search-btn" onclick="buscarOpinion()">🔍 Buscar Mi Opinión</button>
+            </div>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <div id="opinionContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function buscarOpinion() {
+            const nombre = document.getElementById('nombreBuscar').value.trim();
+            
+            if (!nombre) {
+                alert('Por favor, ingresa tu nombre.');
+                return;
+            }
+            
+            // Realizar petición AJAX para buscar la opinión
+            fetch('buscar_opinion.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'nombre=' + encodeURIComponent(nombre)
+            })
+            .then(response => response.json())
+            .then(data => {
+                mostrarResultado(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al buscar la opinión.');
+            });
+        }
+        
+        function mostrarResultado(data) {
+            const resultSection = document.getElementById('resultSection');
+            const opinionContent = document.getElementById('opinionContent');
+            
+            if (data.encontrado) {
+                opinionContent.innerHTML = generarHTML(data.opinion);
+                resultSection.style.display = 'block';
+            } else {
+                opinionContent.innerHTML = `
+                    <div class="not-found">
+                        <h3>❌ No encontrado</h3>
+                        <p>No se encontró ninguna opinión con el nombre "${data.nombre_buscado}".</p>
+                        <p>Verifica que el nombre sea exactamente igual al que usaste en la encuesta.</p>
+                    </div>
+                `;
+                resultSection.style.display = 'block';
+            }
+        }
+        
+        function generarHTML(opinion) {
+            const preguntas = {
+                'preg_1': 'Satisfacción general',
+                'preg_2': '¿Te ayudó el proyecto?',
+                'preg_3': 'Funcionalidades más útiles',
+                'preg_4': 'Facilidad de uso',
+                'preg_5': '¿Recomendarías el proyecto?',
+                'preg_6': 'Información más importante',
+                'preg_7': '¿Te sentiste seguro/a?',
+                'preg_8': 'Impacto emocional',
+                'preg_9': 'Qué mejorarías',
+                'preg_10': 'Comentarios adicionales'
+            };
+            
+            let html = `<h2>👤 Opinión de: ${opinion.nombre}</h2>`;
+            
+            Object.keys(preguntas).forEach((key, index) => {
+                if (opinion[key]) {
+                    html += `
+                        <div class="opinion-card">
+                            <div class="question-title">
+                                <div class="question-icon">${index + 1}</div>
+                                ${preguntas[key]}
+                            </div>
+                            <div class="answer">
+                                ${formatearRespuesta(key, opinion[key])}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            html += `
+                <div style="text-align:center; margin-top:30px;">
+                    <button class="edit-btn" onclick="editarOpinion('${opinion.nombre}')">
+                        ✏️ Editar Mi Opinión
+                    </button>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function formatearRespuesta(pregunta, respuesta) {
+            // Formatear respuesta según el tipo de pregunta
+            if (pregunta === 'preg_1') {
+                // Mostrar estrellas para satisfacción
+                const estrellas = '⭐'.repeat(parseInt(respuesta));
+                return `<span class="stars">${estrellas}</span> (${respuesta}/5)`;
+            } else if (pregunta === 'preg_3' || pregunta === 'preg_6' || pregunta === 'preg_8') {
+                // Formatear múltiples opciones
+                return respuesta.split(',').map(item => `• ${item}`).join('<br>');
+            } else {
+                return respuesta;
+            }
+        }
+        
+        function editarOpinion(nombre) {
+            // Redireccionar a la página de encuesta para editar
+            window.location.href = `encuesta.html?editar=${encodeURIComponent(nombre)}`;
+        }
+        
+        // Permitir buscar con Enter
+        document.getElementById('nombreBuscar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarOpinion();
+            }
+        });
+    </script>
+</body>
+</html>
